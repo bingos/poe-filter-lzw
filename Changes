@@ -1,6 +1,9 @@
 POE::Filter::LZW
 ================
 
+1.72	Mon Jun  1 13:54:20 BST 2009
+	- Makefile.PL meta updates
+
 1.70	Mon Jun 30 17:25:48 BST 2008
 	- Fixed problems with MANIFEST
 
