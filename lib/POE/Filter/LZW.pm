@@ -1,13 +1,12 @@
 package POE::Filter::LZW;
 
+#ABSTRACT: A POE filter wrapped around Compress::LZW
+
 use strict;
 use warnings;
 use Carp;
 use Compress::LZW qw(compress decompress);
-use vars qw($VERSION);
 use base qw(POE::Filter);
-
-$VERSION = '1.72';
 
 sub new {
   my $type = shift;
@@ -32,7 +31,7 @@ sub get {
   foreach my $raw_line (@$raw_lines) {
 	if ( my $line = decompress( $raw_line ) ) {
 		push @$events, $line;
-	} 
+	}
 	else {
 		warn "Couldn\'t decompress input\n";
 	}
@@ -52,7 +51,7 @@ sub get_one {
   if ( my $raw_line = shift @{ $self->{BUFFER} } ) {
 	if ( my $line = decompress( $raw_line ) ) {
 		push @$events, $line;
-	} 
+	}
 	else {
 		warn "Couldn\'t decompress input\n";
 	}
@@ -67,7 +66,7 @@ sub put {
   foreach my $event (@$events) {
 	if ( my $line = compress( $event, $self->{level} ) ) {
 		push @$raw_lines, $line;
-	} 
+	}
 	else {
 		warn "Couldn\'t compress output\n";
 	}
@@ -83,13 +82,9 @@ sub clone {
   return bless $nself, ref $self;
 }
 
-1;
+qq[Cmprss me];
 
-__END__
-
-=head1 NAME
-
-POE::Filter::LZW - A POE filter wrapped around Compress::LZW
+=pod
 
 =head1 SYNOPSIS
 
@@ -117,7 +112,7 @@ suitable for use with L<POE::Filter::Stackable|POE::Filter::Stackable>.
 
 =item C<new>
 
-Creates a new POE::Filter::LZW object. 
+Creates a new POE::Filter::LZW object.
 
 =back
 
@@ -146,16 +141,6 @@ Makes a copy of the filter, and clears the copy's buffer.
 Sets the compression level. Consult L<Compress::LZW> for details.
 
 =back
-
-=head1 AUTHOR
-
-Chris C<BinGOs> Williams <chris@bingosnet.co.uk>
-
-=head1 LICENSE
-
-Copyright E<copy> Chris Williams
-
-This module may be used, modified, and distributed under the same terms as Perl itself. Please see the license that came with your Perl distribution for details.
 
 =head1 SEE ALSO
 
